@@ -185,7 +185,7 @@ The endpoint URL is constructed as follows:
 - Endpoint: `POST /api/v1/transaction`
 - Example Request:
   ```http
-    POST /banks
+    POST /api/v1/transaction
     Content-Type: application/json
     
     {
