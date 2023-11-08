@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgis/postgis:10-2.5-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=tehnosky
+
+  liquibase-banking:
+    image: liquibase/liquibase:4.17.2
+    container_name: liquibase-tehnosky
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./databases/:/databases/
+    command: >
+      liquibase
+        --logLevel=INFO
+        --driver=org.postgresql.Driver
+        --classpath="/srs/main/resources/db/changelog/db.changelog-1.0.sql"
+        --changeLogFile="db.changelog-master.yaml"
+        --url="jdbc:postgresql://localhost:5432/tehnosky"
+        --username=postgres
+        --password=pass 
+      update
