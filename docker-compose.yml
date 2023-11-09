@@ -7,6 +7,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=tehnosky
+    healthcheck:
+      test: pg_isready -U postgres -d db_tehnosky
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
   liquibase-banking:
     image: liquibase/liquibase:4.17.2
